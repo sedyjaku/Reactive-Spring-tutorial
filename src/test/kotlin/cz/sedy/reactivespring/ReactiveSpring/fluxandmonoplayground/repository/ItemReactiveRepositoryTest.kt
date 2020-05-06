@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -15,6 +16,7 @@ import java.math.BigDecimal
 
 @DataMongoTest
 @ExtendWith(SpringExtension::class)
+@DirtiesContext
 class ItemReactiveRepositoryTest {
 
     @Autowired
@@ -82,7 +84,7 @@ class ItemReactiveRepositoryTest {
 
     @Test
     fun updateItem() {
-        val updatedItem: Flux<Item> = itemReactiveRepository.findByDescription("LG TV")
+        val updatedItem: Mono<Item> = itemReactiveRepository.findByDescription("LG TV")
                 .map { item ->
                     item.price = BigDecimal.valueOf(99999.999)
                     item
@@ -95,13 +97,20 @@ class ItemReactiveRepositoryTest {
     }
 
     @Test
-    fun deleteItem(){
+    fun deleteItem() {
         val deletedItem = itemReactiveRepository.findById("ABC")
                 .map(Item::id!!)
                 .flatMap { id: String? ->
-                    itemReactiveRepository.deleteById(id!!) }
+                    itemReactiveRepository.deleteById(id!!)
+                }
         StepVerifier.create(deletedItem)
                 .expectSubscription()
+                .verifyComplete()
+
+
+        StepVerifier.create(itemReactiveRepository.findAll())
+                .expectSubscription()
+                .expectNextCount(4)
                 .verifyComplete()
     }
 }
