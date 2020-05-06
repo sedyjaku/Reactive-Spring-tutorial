@@ -1,5 +1,6 @@
 package cz.sedy.reactivespring.ReactiveSpring.fluxandmonoplayground.controller
 
+import cz.sedy.reactivespring.ReactiveSpring.fluxandmonoplayground.SpringTestParent
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -12,12 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.reactive.server.EntityExchangeResult
 import org.springframework.test.web.reactive.server.WebTestClient
 
-@ExtendWith(SpringExtension::class)
-@WebFluxTest
-class MonoControllerTest {
+class MonoControllerTest: SpringTestParent() {
 
-    @Autowired
-    lateinit var webTestClient: WebTestClient
 
     @Test
     fun testMono(){

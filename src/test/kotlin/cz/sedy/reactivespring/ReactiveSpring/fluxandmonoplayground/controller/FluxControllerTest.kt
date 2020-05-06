@@ -1,5 +1,6 @@
 package cz.sedy.reactivespring.ReactiveSpring.fluxandmonoplayground.controller
 
+import cz.sedy.reactivespring.ReactiveSpring.fluxandmonoplayground.SpringTestParent
 import org.hamcrest.core.Is
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -14,12 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 import reactor.test.StepVerifier
 import java.util.*
 
-@ExtendWith(SpringExtension::class)
-@WebFluxTest
-class FluxControllerTest {
-
-    @Autowired
-    lateinit var webTestClient: WebTestClient
+class FluxControllerTest: SpringTestParent() {
 
     @Test
     fun flux_approach1(){
