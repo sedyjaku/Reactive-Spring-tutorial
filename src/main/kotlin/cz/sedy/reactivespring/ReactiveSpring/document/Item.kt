@@ -8,7 +8,7 @@ import java.math.BigDecimal
 data class Item(
 
         @Id
-        val id: String,
+        val id: String?,
 
         var description: String,
 
