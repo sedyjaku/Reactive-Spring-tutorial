@@ -17,9 +17,9 @@ class ItemController(
         return itemReactiveRepository.findAll()
     }
 
-    @GetMapping("/v1/items/{itemId}")
-    fun getItem(@PathVariable itemId: String): Mono<Item> {
-        return itemReactiveRepository.findById(itemId)
+    @GetMapping("/v1/items/{id}")
+    fun getItem(@PathVariable id: String): Mono<Item> {
+        return itemReactiveRepository.findById(id)
     }
 
     @PostMapping("/v1/items")
@@ -27,16 +27,16 @@ class ItemController(
         return itemReactiveRepository.save(request)
     }
 
-    @DeleteMapping("/v1/items/{itemId}")
+    @DeleteMapping("/v1/items/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteItem(@PathVariable itemId: String): Mono<Void> {
-        return itemReactiveRepository.deleteById(itemId)
+    fun deleteItem(@PathVariable id: String): Mono<Void> {
+        return itemReactiveRepository.deleteById(id)
     }
 
-    @PutMapping("/v1/items/{itemId}")
-    fun getItem(@PathVariable itemId: String,
+    @PutMapping("/v1/items/{id}")
+    fun getItem(@PathVariable id: String,
                 @RequestBody request: Item): Mono<Item> {
-        return itemReactiveRepository.findById(itemId)
+        return itemReactiveRepository.findById(id)
                 .flatMap { currentItem ->
                     currentItem.price = request.price
                     currentItem.description = request.description
